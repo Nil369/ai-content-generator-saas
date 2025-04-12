@@ -1,0 +1,106 @@
+/* Theme color variables for different color schemes */
+
+:root {
+  --theme-primary: #71717a; /* Default primary (zinc) */
+}
+
+.theme-zinc {
+  --theme-primary: #71717a;
+  --theme-primary-light: #a1a1aa;
+  --theme-primary-dark: #52525b;
+}
+
+.theme-slate {
+  --theme-primary: #64748b;
+  --theme-primary-light: #94a3b8;
+  --theme-primary-dark: #475569;
+}
+
+.theme-stone {
+  --theme-primary: #78716c;
+  --theme-primary-light: #a8a29e;
+  --theme-primary-dark: #57534e;
+}
+
+.theme-gray {
+  --theme-primary: #6b7280;
+  --theme-primary-light: #9ca3af;
+  --theme-primary-dark: #4b5563;
+}
+
+.theme-neutral {
+  --theme-primary: #737373;
+  --theme-primary-light: #a3a3a3;
+  --theme-primary-dark: #525252;
+}
+
+.theme-red {
+  --theme-primary: #ef4444;
+  --theme-primary-light: #f87171;
+  --theme-primary-dark: #dc2626;
+}
+
+.theme-rose {
+  --theme-primary: #f43f5e;
+  --theme-primary-light: #fb7185;
+  --theme-primary-dark: #e11d48;
+}
+
+.theme-blue {
+  --theme-primary: #3b82f6;
+  --theme-primary-light: #60a5fa;
+  --theme-primary-dark: #2563eb;
+}
+
+.theme-green {
+  --theme-primary: #22c55e;
+  --theme-primary-light: #4ade80;
+  --theme-primary-dark: #16a34a;
+}
+
+.theme-purple {
+  --theme-primary: #a855f7;
+  --theme-primary-light: #c084fc;
+  --theme-primary-dark: #9333ea;
+}
+
+/* Enhanced Dark Mode styles for each theme */
+.dark .theme-zinc {
+  --theme-primary: #a1a1aa;
+}
+
+.dark .theme-slate {
+  --theme-primary: #94a3b8;
+}
+
+.dark .theme-stone {
+  --theme-primary: #a8a29e;
+}
+
+.dark .theme-gray {
+  --theme-primary: #9ca3af;
+}
+
+.dark .theme-neutral {
+  --theme-primary: #a3a3a3;
+}
+
+.dark .theme-red {
+  --theme-primary: #f87171;
+}
+
+.dark .theme-rose {
+  --theme-primary: #fb7185;
+}
+
+.dark .theme-blue {
+  --theme-primary: #60a5fa;
+}
+
+.dark .theme-green {
+  --theme-primary: #4ade80;
+}
+
+.dark .theme-purple {
+  --theme-primary: #c084fc;
+} 
