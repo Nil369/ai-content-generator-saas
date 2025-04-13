@@ -1,146 +1,116 @@
-import React from 'react'
-import { UserButton } from '@clerk/nextjs'
-import { ActivitySquare, FileText, Image, MessageSquare, Plus, Settings, Zap } from 'lucide-react'
-import Link from 'next/link'
-import { GradientEffect } from '@/components/ui/gradient-effect'
-
-// Set default theme color to blue
-const DEFAULT_THEME_COLOR = 'blue';
+"use client";
+import React from 'react';
+import { 
+  FileText, 
+  Image as ImageIcon, 
+  MessageSquare, 
+  FileOutput, 
+  PenTool,
+  Video
+} from 'lucide-react';
+import { PinContainer } from '@/components/ui/3d-pin';
+import { GradientEffect } from '@/components/ui/gradient-effect';
 
 function Dashboard() {
+  // Define the main AI content generation tools only
+  const tools = [
+    {
+      title: "Content Writer",
+      description: "Create blog posts, articles, and marketing copy with AI assistance",
+      icon: <PenTool className="h-6 w-6 text-white" />,
+      href: "/dashboard/content-writer",
+      color: "from-purple-500 to-indigo-600",
+      overlayColor: "rgba(124, 58, 237, 0.2)" // purple-ish
+    },
+    {
+      title: "Image Generator",
+      description: "Create custom images and graphics using AI models",
+      icon: <ImageIcon className="h-6 w-6 text-white" />,
+      href: "/dashboard/image-generator",
+      color: "from-blue-500 to-cyan-600",
+      overlayColor: "rgba(59, 130, 246, 0.2)" // blue-ish
+    },
+    {
+      title: "Chat Assistant",
+      description: "Get answers and assistance through conversational AI",
+      icon: <MessageSquare className="h-6 w-6 text-white" />,
+      href: "/dashboard/chat-assistant",
+      color: "from-green-500 to-emerald-600",
+      overlayColor: "rgba(16, 185, 129, 0.2)" // green-ish
+    },
+    {
+      title: "PDF Generator",
+      description: "Create professional PDF documents with AI formatting",
+      icon: <FileOutput className="h-6 w-6 text-white" />,
+      href: "/dashboard/pdf-generator",
+      color: "from-red-500 to-rose-600",
+      overlayColor: "rgba(239, 68, 68, 0.2)" // red-ish
+    },
+    {
+      title: "Video Creator",
+      description: "Generate videos and animations with AI-powered tools",
+      icon: <Video className="h-6 w-6 text-white" />,
+      href: "/dashboard/video-creator",
+      color: "from-amber-500 to-orange-600",
+      overlayColor: "rgba(245, 158, 11, 0.2)" // amber-ish
+    }
+  ];
+
   return (
-    <div className="space-y-8">
+    <div className="relative min-h-screen">
       {/* Hero section with animated effect */}
-      <section className="relative rounded-3xl overflow-hidden bg-black/5 dark:bg-white/5 border shadow-sm">
+      <section className="relative rounded-3xl overflow-hidden bg-black/5 dark:bg-white/5 border shadow-sm mb-12">
         <div className="absolute inset-0 overflow-hidden">
           <GradientEffect />
         </div>
         <div className="relative p-12 z-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl font-bold mb-4">Welcome to AI Content Crafter</h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Your creative companion for generating high-quality content with AI
+            <h1 className="text-4xl font-bold mb-4">AI Content Crafter Dashboard</h1>
+            <p className="text-xl text-muted-foreground mb-4">
+              Explore our suite of AI-powered tools to create amazing content
             </p>
-            <Link href="/content-writer">
-              <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center gap-2">
-                <Plus size={18} />
-                Create New Content
-              </button>
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* Quick access tools grid */}
-      <section className="space-y-4">
-        <h2 className="text-2xl font-bold">Quick Tools</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Card 1 */}
-          <Link href="/content-writer">
-            <div className="group relative h-48 overflow-hidden rounded-xl border bg-background p-6 hover:shadow-md transition-all duration-200 hover:-translate-y-1">
-              <div className="absolute bottom-0 right-0 top-0 w-1/2 bg-gradient-to-br from-primary/5 to-primary/30 opacity-50 group-hover:opacity-70 transition-opacity" />
-              <div className="relative z-10 flex h-full flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
-                    <FileText size={24} />
+      {/* 3D Pins Grid for Tools */}
+      <div className="py-20">
+        <h2 className="text-3xl font-bold mb-16 text-center">AI Content Generation Tools</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 lg:gap-32">
+          {tools.map((tool, index) => (
+            <div key={index} className="h-[20rem] w-full flex items-center justify-center ">
+              <PinContainer
+                title={tool.title}
+                href={tool.href}
+                containerClassName="h-[300px] w-[300px]"
+              >
+                <div 
+                  className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem] "
+                  style={{ background: `radial-gradient(circle at center, ${tool.overlayColor} 0%, transparent 70%)` }}
+                >
+                  <div 
+                    className={`absolute inset-0 opacity-50 bg-gradient-to-br ${tool.color}`}
+                    style={{ mixBlendMode: 'overlay' }}
+                  />
+                  
+                  <div className="flex flex-col items-center justify-center text-center h-full z-10">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br flex items-center justify-center mb-4 shadow-lg transform transition-transform duration-500 hover:scale-110 relative z-20">
+                      <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${tool.color} flex items-center justify-center`}>
+                        {tool.icon}
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-white mb-2">{tool.title}</h3>
+                    <p className="text-white/80 text-sm max-w-[200px]">{tool.description}</p>
                   </div>
-                  <h3 className="text-xl font-semibold">Content Writer</h3>
-                  <p className="text-muted-foreground">Write blogs, articles, and more with AI assistance</p>
                 </div>
-                <div className="flex items-center text-sm text-primary">
-                  <span>Get started</span>
-                  <Zap className="ml-1 h-4 w-4" />
-                </div>
-              </div>
+              </PinContainer>
             </div>
-          </Link>
-
-          {/* Card 2 */}
-          <Link href="/image-generator">
-            <div className="group relative h-48 overflow-hidden rounded-xl border bg-background p-6 hover:shadow-md transition-all duration-200 hover:-translate-y-1">
-              <div className="absolute bottom-0 right-0 top-0 w-1/2 bg-gradient-to-br from-indigo-500/5 to-indigo-500/30 opacity-50 group-hover:opacity-70 transition-opacity" />
-              <div className="relative z-10 flex h-full flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="w-12 h-12 bg-indigo-500/10 rounded-lg flex items-center justify-center text-indigo-500">
-                    <Image size={24} />
-                  </div>
-                  <h3 className="text-xl font-semibold">Image Generator</h3>
-                  <p className="text-muted-foreground">Create stunning images with AI models</p>
-                </div>
-                <div className="flex items-center text-sm text-indigo-500">
-                  <span>Get started</span>
-                  <Zap className="ml-1 h-4 w-4" />
-                </div>
-              </div>
-            </div>
-          </Link>
-
-          {/* Card 3 */}
-          <Link href="/chat-assistant">
-            <div className="group relative h-48 overflow-hidden rounded-xl border bg-background p-6 hover:shadow-md transition-all duration-200 hover:-translate-y-1">
-              <div className="absolute bottom-0 right-0 top-0 w-1/2 bg-gradient-to-br from-purple-500/5 to-purple-500/30 opacity-50 group-hover:opacity-70 transition-opacity" />
-              <div className="relative z-10 flex h-full flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center text-purple-500">
-                    <MessageSquare size={24} />
-                  </div>
-                  <h3 className="text-xl font-semibold">Chat Assistant</h3>
-                  <p className="text-muted-foreground">Get answers and assistance through conversational AI</p>
-                </div>
-                <div className="flex items-center text-sm text-purple-500">
-                  <span>Get started</span>
-                  <Zap className="ml-1 h-4 w-4" />
-                </div>
-              </div>
-            </div>
-          </Link>
+          ))}
         </div>
-      </section>
-
-      {/* Recent activity */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Recent Activity</h2>
-          <Link href="/analytics" className="text-primary hover:underline text-sm flex items-center gap-1">
-            <span>View all</span>
-            <ActivitySquare size={14} />
-          </Link>
-        </div>
-        
-        <div className="rounded-xl border bg-card text-card-foreground">
-          <div className="p-6">
-            <div className="flex flex-col space-y-4">
-              {/* Activity items */}
-              {[1, 2, 3].map((_, i) => (
-                <div key={i} className="flex items-center gap-4 p-2 rounded-lg hover:bg-accent/50 transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    {i === 0 && <FileText size={16} className="text-primary" />}
-                    {i === 1 && <Image size={16} className="text-indigo-500" />}
-                    {i === 2 && <MessageSquare size={16} className="text-purple-500" />}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium">
-                      {i === 0 && "Blog post about AI technology"}
-                      {i === 1 && "Generated header image"}
-                      {i === 2 && "Chat session about marketing strategy"}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {i === 0 && "Created 2 hours ago"}
-                      {i === 1 && "Created yesterday"}
-                      {i === 2 && "Created 3 days ago"}
-                    </p>
-                  </div>
-                  <button className="w-8 h-8 rounded-full hover:bg-accent flex items-center justify-center">
-                    <Settings size={14} className="text-muted-foreground" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

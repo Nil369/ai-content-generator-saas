@@ -7,7 +7,8 @@ import {
   BarChart3,
   CreditCard,
   Clock,
-  MessageSquare
+  MessageSquare,
+  Phone
 } from "lucide-react";
 
 // Define the route type
@@ -67,5 +68,11 @@ export const APP_ROUTES: AppRoute[] = [
     label: "Settings", 
     href: "/dashboard/settings",
     description: "Configure your account settings"
+  },
+  { 
+    icon: Phone, 
+    label: "Contact", 
+    href: "/contact",
+    description: "Get in touch with our support team"
   },
 ]; 

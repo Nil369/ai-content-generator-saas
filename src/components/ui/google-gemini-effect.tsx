@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion, MotionValue } from "motion/react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const transition = {
   duration: 0,
@@ -19,19 +19,26 @@ export const GoogleGeminiEffect = ({
   description?: string;
   className?: string;
 }) => {
+  const [hostname, setHostname] = useState("aihub.content-crafter.com");
+
+  useEffect(() => {
+    // Access window object only on the client side
+    setHostname(window.location.hostname || "aihub.content-crafter.com");
+  }, []);
+
   return (
     <div className={cn("sticky top-80", className)}>
-      <p className="text-lg md:text-7xl font-bold pb-4 text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-300">
+      <p className="text-3xl md:text-8xl font-bold pb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from zinc-900 to-zinc-700 dark:bg-gradient-to-b dark:from-neutral-50 dark:to-neutral-400">
         {title || `Build with Aceternity UI`}
       </p>
-      <p className="text-xs md:text-xl font-normal text-center text-neutral-400 mt-4 max-w-lg mx-auto">
+      <p className="text-sm md:text-xl font-normal text-center text-neutral-400 mt-4 max-w-lg mx-auto">
         {description ||
           `Scroll this component and see the bottom SVG come to life wow this
         works!`}
       </p>
       <div className="w-full h-[890px] -top-60 md:-top-40  flex items-center justify-center bg-red-transparent absolute ">
         <button className="font-bold bg-white rounded-full md:px-4 md:py-2 px-2 py-1 md:mt-24 mt-8 z-30 md:text-base text-black text-xs  w-fit mx-auto ">
-          aihub.content-crafter.com
+          {hostname}
         </button>
       </div>
       <svg

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,39 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import toast from 'react-hot-toast';
+import dynamic from 'next/dynamic';
+
+// Simple markdown to HTML converter
+function markdownToHtml(markdown: string) {
+  return markdown
+    .replace(/\n/g, '<br>')
+    .replace(/^# (.*)/gm, '<h1>$1</h1>')
+    .replace(/^## (.*)/gm, '<h2>$1</h2>')
+    .replace(/^### (.*)/gm, '<h3>$1</h3>')
+    .replace(/^#### (.*)/gm, '<h4>$1</h4>')
+    .replace(/^##### (.*)/gm, '<h5>$1</h5>')
+    .replace(/^###### (.*)/gm, '<h6>$1</h6>')
+    .replace(/^\* (.*)/gm, '<li>$1</li>')
+    .replace(/^- (.*)/gm, '<li>$1</li>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code>$1</code>')
+    .replace(/!\[(.*?)\]\((.*?)\)/g, '<img alt="$1" src="$2" />')
+    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2">$1</a>');
+}
+
+// Pure Markdown editor component
+const MarkdownEditor = ({ value, onChange, placeholder = "Write markdown here..." }: { value: string, onChange: (value: string) => void, placeholder?: string }) => {
+  return (
+    <Textarea
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="font-mono text-sm h-full min-h-[400px] max-h-[400px] resize-none p-4 font-medium w-full"
+      spellCheck={false}
+    />
+  );
+};
 
 export default function ContentWriterPage() {
   const [prompt, setPrompt] = useState("");
@@ -25,6 +58,56 @@ export default function ContentWriterPage() {
   const [editorContent, setEditorContent] = useState("# Start writing...");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const editorRef = useRef<any>(null);
+  const [activeTab, setActiveTab] = useState("editor");
+  const [viewportWidth, setViewportWidth] = useState(0);
+  
+  // Chat state
+  const [chatMessages, setChatMessages] = useState([
+    { role: 'assistant', content: "Hi there! I'm your AI writing assistant. How can I help with your content?" },
+    { role: 'user', content: "Can you help me write a blog post about AI?" },
+    { role: 'assistant', content: "Of course! I'd be happy to help. What specific aspects of AI would you like to focus on? For example:\n- AI in everyday life\n- Machine learning fundamentals\n- Ethical considerations\n- Future of AI technology" }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [sendingChat, setSendingChat] = useState(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Update viewport width for responsive layout
+  useEffect(() => {
+    // Set initial width
+    setViewportWidth(window.innerWidth);
+    
+    // Add resize listener
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Auto-scroll chat to bottom when messages change
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatMessages]);
+
+  // Auto-focus the chat input when the sheet is opened
+  useEffect(() => {
+    if (isChatOpen) {
+      // Small delay to ensure the sheet is fully open
+      const timer = setTimeout(() => {
+        const chatInputElement = document.getElementById('chat-message-input');
+        if (chatInputElement) {
+          chatInputElement.focus();
+        }
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isChatOpen]);
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
@@ -58,37 +141,93 @@ export default function ContentWriterPage() {
     toast.success('Content downloaded successfully!');
   };
 
+  const handleChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Get the input value directly from the DOM
+    const inputElement = document.getElementById('chat-message-input') as HTMLInputElement;
+    const message = inputElement ? inputElement.value.trim() : '';
+    
+    if (!message || sendingChat) return;
+    
+    // Add user message
+    const userMessage = { role: 'user', content: message };
+    setChatMessages(prev => [...prev, userMessage]);
+    
+    // Clear input
+    if (inputElement) inputElement.value = '';
+    setChatInput('');
+    setSendingChat(true);
+    
+    // Simulate AI response (replace with actual API call)
+    setTimeout(() => {
+      // Example responses based on common content creation questions
+      let response = "I'll help you with that. Could you provide more details about what you need?";
+      
+      const input = message.toLowerCase();
+      if (input.includes("blog post") || input.includes("article")) {
+        response = "I can help with your blog post. What topic would you like to cover? I can suggest an outline, help with specific sections, or provide ideas for making your content more engaging.";
+      } else if (input.includes("seo") || input.includes("keywords")) {
+        response = "For SEO optimization, consider incorporating relevant keywords naturally throughout your content. I can suggest some keywords for your topic if you tell me what you're writing about.";
+      } else if (input.includes("outline") || input.includes("structure")) {
+        response = "A good content structure typically includes an engaging introduction, 3-5 main sections with subheadings, and a conclusion. Would you like me to create a specific outline for your topic?";
+      }
+      
+      setChatMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      setSendingChat(false);
+      
+      // Focus the input again
+      if (inputElement) inputElement.focus();
+    }, 1000);
+  };
+
   const ChatAssistant = () => (
     <div className="p-4 h-full flex flex-col">
-      <div className="flex-1 overflow-y-auto border rounded-md p-3 mb-4 space-y-4">
-        <div className="bg-muted p-3 rounded-lg max-w-[80%]">
-          <p className="text-sm">Hi there! I'm your AI writing assistant. How can I help with your content?</p>
-        </div>
+      <div 
+        ref={chatContainerRef}
+        className="flex-1 overflow-y-auto border rounded-md p-3 mb-4 space-y-4"
+      >
+        {chatMessages.map((message, index) => (
+          <div 
+            key={index}
+            className={`${
+              message.role === 'assistant' 
+                ? 'bg-muted p-3 rounded-lg max-w-[80%]' 
+                : 'bg-primary/10 p-3 rounded-lg ml-auto max-w-[80%]'
+            }`}
+          >
+            <p className="text-sm whitespace-pre-line">{message.content}</p>
+          </div>
+        ))}
         
-        <div className="bg-primary/10 p-3 rounded-lg ml-auto max-w-[80%]">
-          <p className="text-sm">Can you help me write a blog post about AI?</p>
-        </div>
-        
-        <div className="bg-muted p-3 rounded-lg max-w-[80%]">
-          <p className="text-sm">Of course! I'd be happy to help. What specific aspects of AI would you like to focus on? For example:</p>
-          <ul className="text-sm list-disc ml-5 mt-2">
-            <li>AI in everyday life</li>
-            <li>Machine learning fundamentals</li>
-            <li>Ethical considerations</li>
-            <li>Future of AI technology</li>
-          </ul>
-        </div>
+        {sendingChat && (
+          <div className="bg-muted p-3 rounded-lg max-w-[80%] animate-pulse">
+            <div className="flex space-x-2 items-center">
+              <div className="h-2 w-2 rounded-full bg-primary/50"></div>
+              <div className="h-2 w-2 rounded-full bg-primary/50"></div>
+              <div className="h-2 w-2 rounded-full bg-primary/50"></div>
+            </div>
+          </div>
+        )}
       </div>
       
-      <div className="flex gap-2">
-        <Textarea 
+      <form onSubmit={handleChatSubmit} className="flex gap-2">
+        <input
+          id="chat-message-input"
+          type="text"
+          defaultValue=""
           placeholder="Type your message..."
-          className="min-h-[60px] resize-none"
+          className="flex-1 px-4 py-2 rounded-md border bg-background text-foreground"
+          disabled={sendingChat}
         />
-        <Button className="shrink-0">
-          <Send className="h-4 w-4" />
+        <Button type="submit" className="shrink-0" disabled={sendingChat}>
+          {sendingChat ? (
+            <RefreshCcw className="h-4 w-4 animate-spin" />
+          ) : (
+            <Send className="h-4 w-4" />
+          )}
         </Button>
-      </div>
+      </form>
     </div>
   );
 
@@ -101,17 +240,21 @@ export default function ContentWriterPage() {
         </div>
         
         <div className="mt-4 sm:mt-0 flex items-center">
-          <Sheet>
+          <Sheet open={isChatOpen} onOpenChange={setIsChatOpen}>
             <SheetTrigger asChild>
               <Button 
                 variant="outline" 
                 className="flex items-center gap-2"
+                onClick={() => setIsChatOpen(true)}
               >
                 <MessageSquare className="h-4 w-4" />
                 <span className="hidden sm:inline">Chat Assistant</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-full sm:w-[400px] p-0">
+            <SheetContent 
+              side="right" 
+              className="w-full sm:w-[400px] p-0"
+            >
               <SheetHeader className="p-4 border-b">
                 <SheetTitle>AI Assistant</SheetTitle>
                 <SheetDescription>
@@ -180,11 +323,21 @@ export default function ContentWriterPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="editor">
-              <TabsList className="mb-4 w-full justify-start">
-                <TabsTrigger value="editor">Editor</TabsTrigger>
-                <TabsTrigger value="preview">Preview</TabsTrigger>
+            <Tabs 
+              defaultValue="editor" 
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full"
+            >
+              <TabsList className="mb-4 w-full flex justify-start overflow-x-auto">
+                <TabsTrigger value="editor" className="flex-1 sm:flex-none">Editor</TabsTrigger>
+                <TabsTrigger value="preview" className="flex-1 sm:flex-none">Preview</TabsTrigger>
+                {viewportWidth > 640 && (
+                  <TabsTrigger value="split" className="flex-1 sm:flex-none">Split View</TabsTrigger>
+                )}
               </TabsList>
+              
+              {/* Editor Tab - Pure Markdown Editor */}
               <TabsContent value="editor" className="min-h-[400px]">
                 {generating ? (
                   <div className="flex flex-col items-center justify-center h-[400px]">
@@ -203,32 +356,105 @@ export default function ContentWriterPage() {
                     <p className="text-muted-foreground mt-4">Crafting your content...</p>
                   </div>
                 ) : (
-                  <ToastEditor
-                    initialValue={editorContent}
-                    height="400px"
-                    placeholder="Your content will appear here"
-                    onChange={setEditorContent}
-                    onSave={handleContentDownload}
-                  />
+                  <div className="border rounded-md h-[400px]">
+                    <MarkdownEditor 
+                      value={editorContent}
+                      onChange={setEditorContent}
+                      placeholder="Write your content in Markdown..."
+                    />
+                  </div>
                 )}
               </TabsContent>
+              
+              {/* Preview Tab - WYSIWYG Preview */}
               <TabsContent value="preview" className="min-h-[400px]">
-                {generatedContent ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none h-[400px] overflow-y-auto p-4 border rounded-md">
-                    <div dangerouslySetInnerHTML={{ 
-                      __html: generatedContent.replace(/\n/g, '<br>')
-                                             .replace(/^# (.*)/gm, '<h1>$1</h1>')
-                                             .replace(/^## (.*)/gm, '<h2>$1</h2>')
-                                             .replace(/^### (.*)/gm, '<h3>$1</h3>')
-                                             .replace(/^- (.*)/gm, '<li>$1</li>')
-                    }} />
+                {generating ? (
+                  <div className="flex flex-col items-center justify-center h-[400px]">
+                    <motion.div
+                      animate={{ 
+                        scale: [1, 1.2, 1],
+                        opacity: [0.5, 1, 0.5]
+                      }}
+                      transition={{ 
+                        repeat: Infinity, 
+                        duration: 1.5
+                      }}
+                    >
+                      <Sparkles className="h-12 w-12 text-primary/50" />
+                    </motion.div>
+                    <p className="text-muted-foreground mt-4">Crafting your content...</p>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center h-[400px]">
-                    <p className="text-muted-foreground">Generate content to see preview</p>
+                  <div className="h-[400px]">
+                    <ToastEditor
+                      initialValue={editorContent}
+                      height="400px"
+                      placeholder="Your content will appear here"
+                      onChange={setEditorContent}
+                      initialEditType="wysiwyg"
+                      hideModeSwitch={true}
+                      toolbarItems={[
+                        ['heading', 'bold', 'italic', 'strike'],
+                        ['hr', 'quote'],
+                        ['ul', 'ol', 'task', 'indent', 'outdent'],
+                        ['table', 'image', 'link'],
+                        ['code', 'codeblock'],
+                      ]}
+                    />
                   </div>
                 )}
               </TabsContent>
+              
+              {/* Split View Tab - Editor and Preview side by side */}
+              {viewportWidth > 640 && (
+                <TabsContent value="split" className="min-h-[400px]">
+                  {generating ? (
+                    <div className="flex flex-col items-center justify-center h-[400px]">
+                      <motion.div
+                        animate={{ 
+                          scale: [1, 1.2, 1],
+                          opacity: [0.5, 1, 0.5]
+                        }}
+                        transition={{ 
+                          repeat: Infinity, 
+                          duration: 1.5
+                        }}
+                      >
+                        <Sparkles className="h-12 w-12 text-primary/50" />
+                      </motion.div>
+                      <p className="text-muted-foreground mt-4">Crafting your content...</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-[400px] max-h-[400px]">
+                      <div className="h-full max-h-full border rounded-md overflow-hidden">
+                        <MarkdownEditor 
+                          value={editorContent}
+                          onChange={setEditorContent}
+                          placeholder="Write your content in Markdown..."
+                        />
+                      </div>
+                      <div className="h-full max-h-full overflow-hidden">
+                        <ToastEditor
+                          initialValue={editorContent}
+                          height="400px"
+                          placeholder="Your content will appear here"
+                          onChange={setEditorContent}
+                          initialEditType="wysiwyg"
+                          hideModeSwitch={true}
+                          previewStyle="tab"
+                          toolbarItems={[
+                            ['heading', 'bold', 'italic', 'strike'],
+                            ['hr', 'quote'],
+                            ['ul', 'ol', 'task', 'indent', 'outdent'],
+                            ['table', 'image', 'link'],
+                            ['code', 'codeblock'],
+                          ]}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </TabsContent>
+              )}
             </Tabs>
           </CardContent>
           <CardFooter className="flex flex-col sm:flex-row justify-between gap-4">
@@ -254,15 +480,20 @@ export default function ContentWriterPage() {
                 Copy
               </Button>
             </div>
+            
             <Button 
-              variant="outline" 
+              variant="secondary" 
               size="sm" 
-              disabled={!generatedContent || generating}
-              onClick={handleGenerate}
-              className="w-full sm:w-auto"
+              disabled={generating}
+              onClick={() => {
+                setEditorContent("# Start writing...");
+                setGeneratedContent("");
+                setPrompt("");
+              }}
+              className="w-full sm:w-auto mt-2 sm:mt-0"
             >
               <RefreshCcw className="h-4 w-4 mr-2" />
-              Regenerate
+              Reset
             </Button>
           </CardFooter>
         </Card>

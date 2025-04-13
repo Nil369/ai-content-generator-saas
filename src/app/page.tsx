@@ -4,9 +4,19 @@ import React, { useRef } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GoogleGeminiEffect } from "@/components/ui/google-gemini-effect";
-import { ArrowRight, Bot, FileText,ImageIcon, Sparkles, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  FileText,
+  ImageIcon,
+  Sparkles,
+  Zap,
+} from "lucide-react";
 import HomeNavbar from "@/components/Navbar";
 import Image from "next/image";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const ref = useRef(null);
@@ -38,14 +48,20 @@ export default function Home() {
           description="Transform your ideas into brilliant content with the power of AI"
           className="pt-20"
         />
-        <div className="absolute bottom-20 left-0 right-0 flex justify-center z-10">
+        <div className="relative top-100 md:top-60 md:mt-20 left-0 right-0 flex justify-center z-10 ">
           <Link href="/dashboard">
-            <Button
-              size="lg"
-              className="gap-2 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 shadow-lg transition-all duration-300"
-            >
-              Start Creating Now <ArrowRight size={16} />
-            </Button>
+            <div className="m-10 md:m-40 flex justify-center text-center">
+              <HoverBorderGradient
+                containerClassName="rounded-full shadow-lg transition-transform transform hover:scale-105"
+                as="button"
+                className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-10 md:space-x-4 px-3 md:px-6 py-2 md:py-3"
+              >
+                <span className="text-xs md:text-2xl font-semibold">
+                  Get Started
+                </span>
+                <ArrowRight size={24} />
+              </HoverBorderGradient>
+            </div>
           </Link>
         </div>
       </section>
@@ -132,32 +148,48 @@ export default function Home() {
               {
                 step: "1",
                 title: "Select Your Content Type",
-                description:
-                  "Choose from blog posts, social media, emails, and more.",
+                description:"Choose from blog posts, social media, emails, and more.",
+                img:"/content-type.png"
               },
               {
                 step: "2",
                 title: "Describe Your Needs",
-                description:
-                  "Provide basic details or let our AI guide you through the process.",
+                description:"Provide basic details or let our AI guide you through the process.",
+                img:"/needs.png"
               },
               {
                 step: "3",
                 title: "Generate & Refine",
-                description:
-                  "Get instant results and easily customize to match your vision.",
+                description:"Get instant results and easily customize to match your vision.",
+                img:"/generate-refine.webp"
               },
             ].map((item, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center text-center p-6 bg-muted/30 rounded-lg border border-border"
-              >
-                <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-purple-500-foreground text-xl font-bold mb-4">
-                  {item.step}
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
-              </div>
+              <CardContainer className="inter-var" key={i}>
+                <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+                  <CardItem
+                    translateZ="50"
+                    className="text-xl font-bold text-neutral-600 dark:text-white"
+                  >
+                    <span className="text-purple-500">Step {item.step}: </span>{item.title}
+                  </CardItem>
+                  <CardItem
+                    as="p"
+                    translateZ="60"
+                    className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+                  >
+                    {item.description}
+                  </CardItem>
+                  <CardItem translateZ="100" className="w-full mt-4">
+                    <Image
+                      src={item.img}
+                      height="1000"
+                      width="1000"
+                      className="h-60 w-full object-contain rounded-xl group-hover/card:shadow-xl"
+                      alt="thumbnail"
+                    />
+                  </CardItem>
+                </CardBody>
+              </CardContainer>
             ))}
           </div>
         </div>
@@ -175,7 +207,7 @@ export default function Home() {
               Content Crafter today.
             </p>
             <Link href="/dashboard">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2 hover:bg-purple-700">
                 Get Started Now <ArrowRight size={16} />
               </Button>
             </Link>
@@ -184,20 +216,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 border-t">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center mb-4 md:mb-0">
-              <Image src={"/favicon.png"} alt="logo" width={30} height={30} />
-              <span className="font-bold text-xl mx-2">Content Crafter AI</span>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Content Crafter AI . All rights
-              reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 }

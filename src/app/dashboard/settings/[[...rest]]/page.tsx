@@ -30,16 +30,16 @@ import { toast } from 'react-hot-toast';
 
 // Theme color options
 const themeColorOptions = [
-  { value: 'zinc', label: 'Zinc', color: '#71717a' },
-  { value: 'slate', label: 'Slate', color: '#64748b' },
-  { value: 'stone', label: 'Stone', color: '#78716c' },
-  { value: 'gray', label: 'Gray', color: '#6b7280' },
-  { value: 'neutral', label: 'Neutral', color: '#737373' },
-  { value: 'red', label: 'Red', color: '#ef4444' },
-  { value: 'rose', label: 'Rose', color: '#f43f5e' },
-  { value: 'blue', label: 'Blue', color: '#3b82f6' },
-  { value: 'green', label: 'Green', color: '#22c55e' },
-  { value: 'purple', label: 'Purple', color: '#a855f7' },
+  { value: 'zinc', label: 'Zinc', color: 'hsl(240 3.7% 44.1%)' },
+  { value: 'slate', label: 'Slate', color: 'hsl(215.4 16.3% 46.9%)' },
+  { value: 'stone', label: 'Stone', color: 'hsl(25 5.3% 44.7%)' },
+  { value: 'gray', label: 'Gray', color: 'hsl(220 8.9% 46.1%)' },
+  { value: 'neutral', label: 'Neutral', color: 'hsl(0 0% 45.1%)' },
+  { value: 'red', label: 'Red', color: 'hsl(0 84.2% 60.2%)' },
+  { value: 'rose', label: 'Rose', color: 'hsl(346.8 77.2% 49.8%)' },
+  { value: 'blue', label: 'Blue', color: 'hsl(217.2 91.2% 59.8%)' },
+  { value: 'green', label: 'Green', color: 'hsl(142.1 76.2% 36.3%)' },
+  { value: 'purple', label: 'Purple', color: 'hsl(250 95.2% 51.6%)' },
 ];
 
 export default function SettingsPage() {
@@ -47,7 +47,7 @@ export default function SettingsPage() {
   const { user, isLoaded } = useUser();
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [themeColor, setThemeColor] = useState('zinc');
+  const [themeColor, setThemeColor] = useState('purple');
   const [userForm, setUserForm] = useState({
     firstName: '',
     lastName: '',
@@ -57,7 +57,7 @@ export default function SettingsPage() {
   // Load saved color theme
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const savedColor = localStorage.getItem('theme-color') || 'zinc';
+      const savedColor = localStorage.getItem('theme-color') || 'purple';
       setThemeColor(savedColor);
     }
   }, []);
@@ -107,15 +107,18 @@ export default function SettingsPage() {
     html.classList.add(`theme-${color}`);
     body.classList.add(`theme-${color}`);
     
-    // Set CSS variable for the theme color
-    const selectedColor = themeColorOptions.find(opt => opt.value === color)?.color || '#71717a';
-    document.documentElement.style.setProperty('--theme-primary', selectedColor);
-    
-    // Apply to body and dashboard layout
-    const dashboard = document.querySelector('.dashboard-layout');
-    if (dashboard) {
-      dashboard.classList.add(`theme-${color}`);
-    }
+    // Ensure all dashboard elements get the theme update
+    const dashboardElements = document.querySelectorAll('[data-theme-color]');
+    dashboardElements.forEach(element => {
+      themeColorOptions.forEach(option => {
+        element.classList.remove(`theme-${option.value}`);
+      });
+      element.classList.add(`theme-${color}`);
+      element.setAttribute('data-theme-color', color);
+    });
+
+    // Force a reload if needed to ensure theme is applied everywhere
+    setTimeout(() => window.location.reload(), 300);
   };
 
   const handleSaveSettings = (section: string) => {
@@ -174,7 +177,7 @@ export default function SettingsPage() {
       </div>
       
       <Tabs defaultValue="account" className="space-y-6">
-        <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 w-full gap-1 overflow-x-auto">
+        <TabsList className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 w-full gap-1 overflow-x-auto">
           <TabsTrigger value="account" className="flex items-center gap-2 text-xs sm:text-sm whitespace-nowrap">
             <UserCircle className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>Account</span>
@@ -191,31 +194,40 @@ export default function SettingsPage() {
             <Palette className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>Appearance</span>
           </TabsTrigger>
-          <TabsTrigger value="language" className="flex items-center gap-2 text-xs sm:text-sm whitespace-nowrap">
-            <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span>Language</span>
-          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="account">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Clerk User Profile</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-lg md:text-xl">Account Information</CardTitle>
+                <CardDescription className="text-sm md:text-base">
                   Update your profile information and upload a profile picture
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center">
-                <div className="w-full max-w-md mx-auto border rounded-lg overflow-hidden">
+                <div className="w-full overflow-scroll">
                   {isLoaded && (
                     <UserProfile 
                       appearance={{
                         elements: {
-                          rootBox: "mx-auto w-full",
-                          card: "shadow-none p-0 border-0",
+                          rootBox: "mx-auto w-full ",
+                          card: "shadow-none p-0 border-0 dark:bg-zinc-900",
                           navbar: "hidden",
                           pageScrollBox: "p-0",
+                          formButtonPrimary: "bg-primary hover:bg-primary/90",
+                          formFieldInput: "focus:ring-primary",
+                          avatarBox: "cursor-pointer hover:opacity-80",
+                          profilePage: {
+                            root: "p-4"
+                          },
+                          userPreviewMainIdentifier: "font-semibold",
+                          formFieldLabel: "text-foreground",
+                          formFieldLabelRow: "text-foreground",
+                          formFieldError: "text-red-500"
+                        },
+                        variables: {
+                          colorPrimary: '#a855f7'
                         }
                       }}
                     />
@@ -223,106 +235,11 @@ export default function SettingsPage() {
                 </div>
               </CardContent>
             </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Account Information</CardTitle>
-                <CardDescription>Update your account details</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {isLoaded && user && (
-                  <>
-                    <div className="flex items-center space-x-4 mb-6 flex-col sm:flex-row">
-                      <div className="w-20 h-20 rounded-full overflow-hidden bg-muted flex items-center justify-center mb-4 sm:mb-0">
-                        {user.imageUrl ? (
-                          <img 
-                            src={user.imageUrl} 
-                            alt={user.fullName || 'User'} 
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <UserCircle className="w-12 h-12 text-muted-foreground" />
-                        )}
-                      </div>
-                      <div className="text-center sm:text-left">
-                        <h3 className="font-medium text-xl">{user.fullName || 'User'}</h3>
-                        <p className="text-sm text-muted-foreground">{user.primaryEmailAddress?.emailAddress}</p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Member since {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <Input 
-                        id="firstName" 
-                        name="firstName"
-                        value={userForm.firstName} 
-                        onChange={handleUserFormChange}
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input 
-                        id="lastName" 
-                        name="lastName"
-                        value={userForm.lastName} 
-                        onChange={handleUserFormChange}
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input 
-                        id="email" 
-                        name="email"
-                        value={userForm.email} 
-                        disabled
-                      />
-                      <p className="text-xs text-muted-foreground">Email changes are managed through Clerk.dev</p>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label className="text-sm text-muted-foreground">User ID</Label>
-                      <div className="p-3 border rounded-md bg-background font-mono text-xs">
-                        {user.id}
-                      </div>
-                    </div>
-
-                    <Button 
-                      className="gap-2 mt-4" 
-                      onClick={() => handleSaveSettings('userinfo')}
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <div className="h-4 w-4 rounded-full border-2 border-foreground/30 border-t-foreground animate-spin"></div>
-                          Updating...
-                        </>
-                      ) : (
-                        <>
-                          <Save className="h-4 w-4" />
-                          Save Changes
-                        </>
-                      )}
-                    </Button>
-                  </>
-                )}
-
-                {!isLoaded && (
-                  <div className="flex items-center justify-center h-40">
-                    <div className="animate-pulse w-8 h-8 rounded-full bg-muted"></div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
           </div>
         </TabsContent>
         
         <TabsContent value="security">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:overflow-hidden">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div>
@@ -591,76 +508,6 @@ export default function SettingsPage() {
               </CardFooter>
             </Card>
           </div>
-        </TabsContent>
-        
-        <TabsContent value="language">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <div>
-                <CardTitle className="text-xl">Language and Region</CardTitle>
-                <CardDescription>Set your preferred language and region</CardDescription>
-              </div>
-              <Globe className="h-6 w-6 text-muted-foreground" />
-            </CardHeader>
-            <CardContent className="space-y-4 pt-4">
-              <div className="space-y-2">
-                <Label htmlFor="language">Language</Label>
-                <select 
-                  id="language" 
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <option value="en">English</option>
-                  <option value="es">Spanish</option>
-                  <option value="fr">French</option>
-                  <option value="de">German</option>
-                  <option value="ja">Japanese</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="timezone">Timezone</Label>
-                <select 
-                  id="timezone" 
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <option value="utc">UTC (GMT+0)</option>
-                  <option value="est">Eastern Time (GMT-5)</option>
-                  <option value="pst">Pacific Time (GMT-8)</option>
-                  <option value="ist">India Standard Time (GMT+5:30)</option>
-                  <option value="jst">Japan Standard Time (GMT+9)</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="dateFormat">Date Format</Label>
-                <select 
-                  id="dateFormat" 
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-                  <option value="DD/MM/YYYY">DD/MM/YYYY</option>
-                  <option value="YYYY-MM-DD">YYYY-MM-DD</option>
-                </select>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                className="gap-2" 
-                onClick={() => handleSaveSettings('language')}
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <div className="h-4 w-4 rounded-full border-2 border-foreground/30 border-t-foreground animate-spin"></div>
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    <Save className="h-4 w-4" />
-                    Save Settings
-                  </>
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
         </TabsContent>
       </Tabs>
     </div>

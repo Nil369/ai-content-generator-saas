@@ -1,106 +1,106 @@
 /* Theme color variables for different color schemes */
 
 :root {
-  --theme-primary: #71717a; /* Default primary (zinc) */
+  --theme-primary: hsl(250 95.2% 51.6%); /* Default primary (violet/purple) */
 }
 
 .theme-zinc {
-  --theme-primary: #71717a;
-  --theme-primary-light: #a1a1aa;
-  --theme-primary-dark: #52525b;
+  --theme-primary: hsl(240 3.7% 44.1%);
+  --theme-primary-light: hsl(240 5.1% 65.1%);
+  --theme-primary-dark: hsl(240 5.2% 33.9%);
 }
 
 .theme-slate {
-  --theme-primary: #64748b;
-  --theme-primary-light: #94a3b8;
-  --theme-primary-dark: #475569;
+  --theme-primary: hsl(215.4 16.3% 46.9%);
+  --theme-primary-light: hsl(214.3 31.8% 65.1%);
+  --theme-primary-dark: hsl(215.3 19.3% 34.5%);
 }
 
 .theme-stone {
-  --theme-primary: #78716c;
-  --theme-primary-light: #a8a29e;
-  --theme-primary-dark: #57534e;
+  --theme-primary: hsl(25 5.3% 44.7%);
+  --theme-primary-light: hsl(33.3 4.9% 63.7%);
+  --theme-primary-dark: hsl(29 6.5% 33.5%);
 }
 
 .theme-gray {
-  --theme-primary: #6b7280;
-  --theme-primary-light: #9ca3af;
-  --theme-primary-dark: #4b5563;
+  --theme-primary: hsl(220 8.9% 46.1%);
+  --theme-primary-light: hsl(217.9 10.6% 64.9%);
+  --theme-primary-dark: hsl(220 8.9% 33.1%);
 }
 
 .theme-neutral {
-  --theme-primary: #737373;
-  --theme-primary-light: #a3a3a3;
-  --theme-primary-dark: #525252;
+  --theme-primary: hsl(0 0% 45.1%);
+  --theme-primary-light: hsl(0 0% 63.9%);
+  --theme-primary-dark: hsl(0 0% 32.2%);
 }
 
 .theme-red {
-  --theme-primary: #ef4444;
-  --theme-primary-light: #f87171;
-  --theme-primary-dark: #dc2626;
+  --theme-primary: hsl(0 84.2% 60.2%);
+  --theme-primary-light: hsl(0 72.2% 70.6%);
+  --theme-primary-dark: hsl(0 73.7% 41.8%);
 }
 
 .theme-rose {
-  --theme-primary: #f43f5e;
-  --theme-primary-light: #fb7185;
-  --theme-primary-dark: #e11d48;
+  --theme-primary: hsl(346.8 77.2% 49.8%);
+  --theme-primary-light: hsl(349.7 89.2% 60.2%);
+  --theme-primary-dark: hsl(343.4 79.7% 34.7%);
 }
 
 .theme-blue {
-  --theme-primary: #3b82f6;
-  --theme-primary-light: #60a5fa;
-  --theme-primary-dark: #2563eb;
+  --theme-primary: hsl(217.2 91.2% 59.8%);
+  --theme-primary-light: hsl(213.3 93.9% 67.8%);
+  --theme-primary-dark: hsl(221.2 83.2% 53.3%);
 }
 
 .theme-green {
-  --theme-primary: #22c55e;
-  --theme-primary-light: #4ade80;
-  --theme-primary-dark: #16a34a;
+  --theme-primary: hsl(142.1 76.2% 36.3%);
+  --theme-primary-light: hsl(141.9 69.2% 58%);
+  --theme-primary-dark: hsl(142.1 70.6% 29.2%);
 }
 
 .theme-purple {
-  --theme-primary: #a855f7;
-  --theme-primary-light: #c084fc;
-  --theme-primary-dark: #9333ea;
+  --theme-primary: hsl(250 95.2% 51.6%);
+  --theme-primary-light: hsl(252 100% 70%);
+  --theme-primary-dark: hsl(250 90% 45%);
 }
 
 /* Enhanced Dark Mode styles for each theme */
 .dark .theme-zinc {
-  --theme-primary: #a1a1aa;
+  --theme-primary: hsl(240 5.1% 65.1%);
 }
 
 .dark .theme-slate {
-  --theme-primary: #94a3b8;
+  --theme-primary: hsl(214.3 31.8% 65.1%);
 }
 
 .dark .theme-stone {
-  --theme-primary: #a8a29e;
+  --theme-primary: hsl(33.3 4.9% 63.7%);
 }
 
 .dark .theme-gray {
-  --theme-primary: #9ca3af;
+  --theme-primary: hsl(217.9 10.6% 64.9%);
 }
 
 .dark .theme-neutral {
-  --theme-primary: #a3a3a3;
+  --theme-primary: hsl(0 0% 63.9%);
 }
 
 .dark .theme-red {
-  --theme-primary: #f87171;
+  --theme-primary: hsl(0 72.2% 70.6%);
 }
 
 .dark .theme-rose {
-  --theme-primary: #fb7185;
+  --theme-primary: hsl(349.7 89.2% 60.2%);
 }
 
 .dark .theme-blue {
-  --theme-primary: #60a5fa;
+  --theme-primary: hsl(213.3 93.9% 67.8%);
 }
 
 .dark .theme-green {
-  --theme-primary: #4ade80;
+  --theme-primary: hsl(141.9 69.2% 58%);
 }
 
 .dark .theme-purple {
-  --theme-primary: #c084fc;
+  --theme-primary: hsl(252 100% 70%);
 } 

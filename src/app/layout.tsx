@@ -30,14 +30,14 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${redditSans.variable} ${reditMono.variable} antialiased theme-zinc`}
+          className={`${redditSans.variable} ${reditMono.variable} antialiased theme-purple`}
         >
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
-            disableTransitionOnChange
-            storageKey="ai-content-crafter-theme"
+            // disableTransitionOnChange
+            // storageKey="ai-content-crafter-theme"
           >
             {children}
             <ToastProvider />

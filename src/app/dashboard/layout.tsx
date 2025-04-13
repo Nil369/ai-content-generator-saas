@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { SideNav } from '@/components/layout/SideNav'
 import { UserButton } from '@clerk/nextjs'
 import { useTheme } from 'next-themes'
-import { Menu, Search } from 'lucide-react';
+import {Search, Sidebar, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { Suspense } from "react";
@@ -18,61 +18,61 @@ const THEME_COLORS = {
   zinc: {
     light: "light",
     dark: "dark",
-    primary: "#71717a" // zinc-500
+    primary: "hsl(240 3.7% 44.1%)" // zinc
   },
   slate: {
     light: "light",
     dark: "dark", 
-    primary: "#64748b" // slate-500
+    primary: "hsl(215.4 16.3% 46.9%)" // slate
   },
   stone: {
     light: "light",
     dark: "dark",
-    primary: "#78716c" // stone-500
+    primary: "hsl(25 5.3% 44.7%)" // stone
   },
   gray: {
     light: "light",
     dark: "dark",
-    primary: "#6b7280" // gray-500
+    primary: "hsl(220 8.9% 46.1%)" // gray
   },
   neutral: {
     light: "light",
     dark: "dark",
-    primary: "#737373" // neutral-500
+    primary: "hsl(0 0% 45.1%)" // neutral
   },
   red: {
     light: "light",
     dark: "dark",
-    primary: "#ef4444" // red-500
+    primary: "hsl(0 84.2% 60.2%)" // red
   },
   rose: {
     light: "light",
     dark: "dark",
-    primary: "#f43f5e" // rose-500
+    primary: "hsl(346.8 77.2% 49.8%)" // rose
   },
   blue: {
     light: "light",
     dark: "dark",
-    primary: "#3b82f6" // blue-500
+    primary: "hsl(217.2 91.2% 59.8%)" // blue
   },
   green: {
     light: "light",
     dark: "dark",
-    primary: "#22c55e" // green-500
+    primary: "hsl(142.1 76.2% 36.3%)" // green
   },
   purple: {
     light: "light",
     dark: "dark",
-    primary: "#a855f7" // purple-500
+    primary: "hsl(250 95.2% 51.6%)" // violet/purple
   },
 };
 
-// Get the theme color from localStorage or default to "blue"
+// Get the theme color from localStorage or default to "purple"
 function getStoredThemeColor() {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('theme-color') || 'blue';
+    return localStorage.getItem('theme-color') || 'purple';
   }
-  return 'blue';
+  return 'purple';
 }
 
 export default function DashboardLayout({
@@ -81,14 +81,28 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const { theme, setTheme } = useTheme();
-  const [themeColor, setThemeColor] = useState(getStoredThemeColor()); // Set default theme color to blue
+  const [themeColor, setThemeColor] = useState(getStoredThemeColor()); // Set default theme color to purple
   const [mounted, setMounted] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [pageTitle, setPageTitle] = useState("Dashboard");
 
   const pathname = usePathname();
 
-  // Set the theme color on the document root
+  // Initialize theme color from localStorage on mount
+  useEffect(() => {
+    const savedColor = localStorage.getItem('theme-color') || 'purple';
+    setThemeColor(savedColor);
+    
+    // Apply the theme class immediately
+    document.documentElement.classList.forEach(className => {
+      if (className.match(/^theme-/)) {
+        document.documentElement.classList.remove(className);
+      }
+    });
+    document.documentElement.classList.add(`theme-${savedColor}`);
+  }, []);
+
+  // Set the theme color on the document root when it changes
   useEffect(() => {
     document.documentElement.classList.forEach(className => {
       if (className.match(/^theme-/)) {
@@ -96,6 +110,22 @@ export default function DashboardLayout({
       }
     });
     document.documentElement.classList.add(`theme-${themeColor}`);
+    
+    // Update the theme color on the dashboard container as well
+    const dashboardContainer = document.querySelector('.min-h-screen');
+    if (dashboardContainer) {
+      dashboardContainer.classList.forEach(className => {
+        if (className.match(/^theme-/)) {
+          dashboardContainer.classList.remove(className);
+        }
+      });
+      dashboardContainer.classList.add(`theme-${themeColor}`);
+    }
+    
+    // Save the theme color to localStorage for persistence
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme-color', themeColor);
+    }
   }, [themeColor]);
 
   // Handle mounting state for hydration
@@ -147,9 +177,9 @@ export default function DashboardLayout({
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen bg-muted/30">
+    <div className={`flex min-h-screen bg-muted/30 theme-${themeColor}`} data-theme-color={themeColor} data-theme-value={themeColor}>
       {/* Sidebar */}
-      <div id="sidebar" className="z-40">
+      <div id="sidebar" className={`z-40 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <SideNav 
           onClose={() => setIsSidebarOpen(false)} 
           isOpen={isSidebarOpen} 
@@ -176,7 +206,10 @@ export default function DashboardLayout({
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               aria-label="Toggle menu"
             >
-              <Menu className="h-5 w-5" />
+              {isSidebarOpen ? 
+                <ChevronLeft className="h-5 w-5" /> : 
+                <Sidebar className="h-5 w-5" />
+              }
             </Button>
             <h1 className="text-lg font-bold sm:text-xl">{pageTitle}</h1>
           </div>

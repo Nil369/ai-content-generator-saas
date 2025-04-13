@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 const menuItems = [
-  { icon: Home, label: "Dashboard", href: "/dashboard" },
+  { icon: Home, label: "Home", href: "/dashboard" },
   { icon: PenTool, label: "Content Writer", href: "/dashboard/content-writer" },
   { icon: ImageIcon, label: "Image Generator", href: "/dashboard/image-generator" },
   { icon: MessageSquare, label: "Chat Assistant", href: "/dashboard/chat-assistant" },
@@ -49,7 +49,7 @@ export function SideNav({ onClose, isOpen }: SideNavProps) {
         <div className="flex items-center gap-2">
           {/* <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-blue-500" />
           <span className="font-bold text-lg sm:text-xl">AI Crafter</span> */}
-          <Image src="/logo.png" alt="logo" width={200} height={200}/>
+          <Link href="/dashboard"><Image src="/logo.png" alt="logo" width={200} height={200}/></Link>
         </div>
         
         {/* Close button - only shown on mobile */}
@@ -98,7 +98,7 @@ export function SideNav({ onClose, isOpen }: SideNavProps) {
       <div className="border-t pt-4 mt-auto">
         <div className="flex items-center gap-3 px-3">
           <UserButton afterSignOutUrl="/" />
-          <span className="text-sm truncate">Account</span>
+          <span className="text-sm font-medium truncate">Account</span>
         </div>
       </div>
     </div>

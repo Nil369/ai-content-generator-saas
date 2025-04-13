@@ -17,6 +17,9 @@ interface ToastEditorProps {
   onChange?: (content: string) => void;
   onSave?: (content: string) => void;
   toolbarItems?: string[][];
+  initialEditType?: 'markdown' | 'wysiwyg';
+  hideModeSwitch?: boolean;
+  previewStyle?: 'tab' | 'vertical';
 }
 
 export function ToastEditor({
@@ -26,6 +29,9 @@ export function ToastEditor({
   onChange,
   onSave,
   toolbarItems,
+  initialEditType = 'markdown',
+  hideModeSwitch = false,
+  previewStyle = 'vertical',
 }: ToastEditorProps) {
   const [mounted, setMounted] = useState(false);
   const editorRef = useRef<any>(null);
@@ -78,12 +84,12 @@ export function ToastEditor({
       <Editor
         ref={editorRef}
         initialValue={initialValue}
-        previewStyle="vertical"
+        previewStyle={previewStyle}
         height={height}
-        initialEditType="markdown"
+        initialEditType={initialEditType}
         useCommandShortcut={true}
         usageStatistics={false}
-        hideModeSwitch={false}
+        hideModeSwitch={hideModeSwitch}
         toolbarItems={toolbarItems || defaultToolbarItems}
         placeholder={placeholder}
         onChange={handleChange}
