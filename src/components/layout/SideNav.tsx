@@ -40,10 +40,8 @@ export function SideNav({ onClose, isOpen }: SideNavProps) {
 
   return (
     <div className={cn(
-      "fixed inset-y-0 left-0 w-64 bg-background border-r p-4 flex flex-col gap-4 z-40 shadow-lg lg:shadow-none",
-      "transition-transform duration-300 ease-in-out",
-      "lg:translate-x-0",
-      isOpen ? "translate-x-0" : "-translate-x-full"
+      "h-full w-full bg-background border-r p-4 flex flex-col gap-4 shadow-lg lg:shadow-none",
+      "transition-transform duration-300 ease-in-out"
     )}>
       <div className="flex items-center justify-between px-2 py-2 md:py-4">
         <div className="flex items-center gap-2">

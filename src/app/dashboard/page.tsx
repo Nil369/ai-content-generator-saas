@@ -74,11 +74,11 @@ function Dashboard() {
       </section>
 
       {/* 3D Pins Grid for Tools */}
-      <div className="py-20">
+      <div className="py-20 relative z-10">
         <h2 className="text-3xl font-bold mb-16 text-center">AI Content Generation Tools</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-24 lg:gap-32">
           {tools.map((tool, index) => (
-            <div key={index} className="h-[20rem] w-full flex items-center justify-center ">
+            <div key={index} className="h-[20rem] w-full flex items-center justify-center relative">
               <PinContainer
                 title={tool.title}
                 href={tool.href}
@@ -89,7 +89,7 @@ function Dashboard() {
                   style={{ background: `radial-gradient(circle at center, ${tool.overlayColor} 0%, transparent 70%)` }}
                 >
                   <div 
-                    className={`absolute inset-0 opacity-50 bg-gradient-to-br ${tool.color}`}
+                    className={`absolute inset-0 opacity-50 bg-gradient-to-br ${tool.color} dark:opacity-50 opacity-70`}
                     style={{ mixBlendMode: 'overlay' }}
                   />
                   
@@ -100,8 +100,8 @@ function Dashboard() {
                       </div>
                     </div>
                     
-                    <h3 className="text-xl font-bold text-white mb-2">{tool.title}</h3>
-                    <p className="text-white/80 text-sm max-w-[200px]">{tool.description}</p>
+                    <h3 className="text-xl font-bold dark:text-white text-black mb-2 drop-shadow-md">{tool.title}</h3>
+                    <p className="text-black dark:text-white/80 text-sm max-w-[200px] font-medium drop-shadow-md">{tool.description}</p>
                   </div>
                 </div>
               </PinContainer>

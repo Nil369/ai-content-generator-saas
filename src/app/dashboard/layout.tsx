@@ -177,19 +177,19 @@ export default function DashboardLayout({
   if (!mounted) return null;
 
   return (
-    <div className={`flex min-h-screen bg-muted/30 theme-${themeColor}`} data-theme-color={themeColor} data-theme-value={themeColor}>
-      {/* Sidebar */}
-      <div id="sidebar" className={`z-40 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+    <div className={`flex min-h-screen bg-muted/30 theme-${themeColor} relative`} data-theme-color={themeColor} data-theme-value={themeColor}>
+      {/* Sidebar - Positioned absolutely with highest z-index */}
+      <aside id="sidebar" className={`fixed top-0 left-0 bottom-0 w-64 transition-all duration-300 ease-in-out z-[100] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <SideNav 
           onClose={() => setIsSidebarOpen(false)} 
           isOpen={isSidebarOpen} 
         />
-      </div>
+      </aside>
 
       {/* Mobile overlay when sidebar is open */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30 lg:hidden"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-[90] lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
