@@ -58,6 +58,9 @@ export default function RootLayout({
                 userProfile: {
                   baseTheme: undefined,
                 },
+                userButton: {
+                  baseTheme: undefined,
+                },
               }}
           >
             {children}

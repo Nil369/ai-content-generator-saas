@@ -280,12 +280,11 @@ export const NavbarButton = ({
   const FinalTag = Tag || (href ? 'a' : 'button');
 
   return (
-    <FinalTag
-      href={href || undefined}
+    <div
       className={cn(baseStyles, variantStyles[variant], className)}
       {...props}
     >
       {children}
-    </FinalTag>
+    </div>
   );
 };
