@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import {
   Navbar,
   NavBody,
@@ -13,6 +13,7 @@ import {
 import { useState } from "react";
 import { ThemeToggle } from "./layout/ThemeToggle";
 import Link from "next/link";
+import { useAuth, UserButton } from "@clerk/nextjs";
 
 function HomeNavbar() {
   const navItems = [
@@ -35,6 +36,7 @@ function HomeNavbar() {
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isSignedIn, isLoaded } = useAuth();
 
   return (
     <div className="relative w-full mt-5">
@@ -44,8 +46,21 @@ function HomeNavbar() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="secondary" href="/sign-in">Login</NavbarButton>
-            <NavbarButton variant="primary" href="/sign-up">SignUp</NavbarButton>
+            {isLoaded && isSignedIn ? (
+              // Logged in state
+              <>
+                <NavbarButton variant="secondary" href="/dashboard">Dashboard</NavbarButton>
+                <div className="ml-2">
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              </>
+            ) : (
+              // Logged out state
+              <>
+                <NavbarButton variant="secondary" href="/sign-in">Login</NavbarButton>
+                <NavbarButton variant="primary" href="/sign-up">SignUp</NavbarButton>
+              </>
+            )}
             <NavbarButton variant="secondary" as="div">
               <ThemeToggle />
             </NavbarButton>
@@ -77,22 +92,42 @@ function HomeNavbar() {
               </Link>
             ))}
             <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-                href="/sign-in"
-              >
-                Login
-              </NavbarButton>
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-                href="/sign-up"
-              >
-                SignUp
-              </NavbarButton>
+              {isLoaded && isSignedIn ? (
+                // Logged in state - mobile
+                <>
+                  <NavbarButton
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="primary"
+                    className="w-full"
+                    href="/dashboard"
+                  >
+                    Dashboard
+                  </NavbarButton>
+                  <div className="flex justify-center my-2">
+                    <UserButton afterSignOutUrl="/" />
+                  </div>
+                </>
+              ) : (
+                // Logged out state - mobile
+                <>
+                  <NavbarButton
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="primary"
+                    className="w-full"
+                    href="/sign-in"
+                  >
+                    Login
+                  </NavbarButton>
+                  <NavbarButton
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    variant="primary"
+                    className="w-full"
+                    href="/sign-up"
+                  >
+                    SignUp
+                  </NavbarButton>
+                </>
+              )}
               <ThemeToggle />
             </div>
           </MobileNavMenu>

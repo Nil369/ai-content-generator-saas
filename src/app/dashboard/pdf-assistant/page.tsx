@@ -11,10 +11,11 @@ export default function PDFGenerator() {
         </div>
       </div>
       
-      <h1 className="text-3xl font-bold text-center">PDF Generator</h1>
+      <h1 className="text-3xl font-bold text-center">PDF Assistant</h1>
       <p className="text-center text-muted-foreground max-w-2xl mx-auto">
-        Create professional PDF documents with AI formatting and styling. This feature will allow you to generate reports, 
-        documents, and other PDF materials with intelligent layout and design.
+        Understand, Summarise any type of pdf with AI. Lets AI make you understand the pdf as the 
+        AI will have the context of the provided pdfs and you can can ask question and it will tell you the answer.
+        You can then save it as your notes and make your own note as well and then Export your notes as pdfs.
       </p>
       
       <div className="bg-muted p-6 rounded-lg border max-w-2xl mx-auto mt-8">

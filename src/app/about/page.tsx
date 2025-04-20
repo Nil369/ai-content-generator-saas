@@ -24,7 +24,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       <HomeNavbar />
 
       <main className="flex-grow container mx-auto px-4 py-12">
@@ -101,28 +101,23 @@ export default function AboutPage() {
           </h2>
           
           {/* Main skills with icons */}
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold mb-6 text-purple-500">Core Skills</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mb-16">
+            <h3 className="text-xl font-semibold mb-8 text-purple-500">Core Skills</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
               {skills.map((skill, i) => (
-                <CardContainer key={i} className="inter-var">
-                  <CardBody className="bg-gradient-to-br from-muted/30 to-muted/10 dark:from-black/40 dark:to-black/20 border border-black/5 dark:border-white/10 rounded-xl py-6 px-4 h-full">
-                    <CardItem translateZ="40" className="flex flex-col items-center text-center">
-                      <div className="mb-4 p-4 rounded-full bg-purple-500/10 dark:bg-purple-500/20 transform transition-all duration-200 group-hover:scale-110">
-                        {skill.icon}
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2">{skill.name}</h3>
-                    </CardItem>
-                  </CardBody>
-                </CardContainer>
+                <div key={i} className="bg-gradient-to-br from-muted/30 to-muted/10 dark:from-black/40 dark:to-black/20 border border-black/5 dark:border-white/10 rounded-lg py-4 px-2 h-full flex flex-col items-center text-center transition-transform transform hover:scale-105">
+                  <div className="mb-3 p-3 rounded-full bg-purple-500/10 dark:bg-purple-500/20">
+                    {skill.icon}
+                  </div>
+                  <h3 className="text-base font-semibold mb-1">{skill.name}</h3>
+                </div>
               ))}
             </div>
           </div>
-          
           {/* Technical skills grid */}
           <div>
-            <h3 className="text-xl font-semibold mb-6 text-purple-500">Technologies & Tools</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <h3 className="text-xl font-semibold mb-8 text-purple-500">Technologies & Tools</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
               {[
                 { name: "React", level: 90 },
                 { name: "Next.js", level: 85 },
@@ -139,12 +134,12 @@ export default function AboutPage() {
               ].map((tech, i) => (
                 <div key={i} className="group">
                   <div
-                    className="p-4 h-full flex flex-col justify-between bg-muted/10 dark:bg-black/20 rounded-lg hover:bg-purple-500/5 dark:hover:bg-purple-500/10 transition-all duration-300"
+                    className="p-5 h-full flex flex-col justify-between bg-muted/10 dark:bg-black/20 rounded-lg hover:bg-purple-500/5 dark:hover:bg-purple-500/10 transition-all duration-300"
                   >
-                    <div className="text-center mb-2">
-                      <span className="font-medium">{tech.name}</span>
+                    <div className="text-center mb-3">
+                      <span className="font-medium text-base">{tech.name}</span>
                     </div>
-                    <div className="w-full bg-muted/30 dark:bg-white/10 rounded-full h-2 mt-1">
+                    <div className="w-full bg-muted/30 dark:bg-white/10 rounded-full h-2 mt-2">
                       <div 
                         className="bg-purple-500 h-2 rounded-full transition-all duration-500 ease-out group-hover:opacity-80"
                         style={{ width: `${tech.level}%` }}
@@ -163,7 +158,7 @@ export default function AboutPage() {
             Featured Projects
             <span className="absolute bottom-0 left-0 w-1/2 h-1 bg-purple-500"></span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <CardContainer className="inter-var">
               <CardBody className="relative group/card dark:hover:shadow-2xl dark:hover:shadow-purple-500/[0.1] dark:bg-black/20 dark:border-white/[0.2] border-black/[0.1] w-auto h-auto rounded-xl p-6 border">
                 <CardItem translateZ="50" className="text-xl font-bold text-neutral-600 dark:text-white mb-2">

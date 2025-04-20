@@ -34,34 +34,37 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       <HomeNavbar />
 
       {/* Hero Section with Gemini Effect */}
       <section
         ref={ref}
-        className="relative h-screen min-h-[800px] w-full overflow-hidden"
+        className="relative h-screen min-h-[800px] w-full overflow-hidden flex flex-col justify-between"
       >
-        <GoogleGeminiEffect
-          pathLengths={pathLengths}
-          title="AI Content Crafter"
-          description="Transform your ideas into brilliant content with the power of AI"
-          className="pt-20"
-        />
-        <div className="relative top-100 md:top-60 md:mt-20 left-0 right-0 flex justify-center z-10 ">
+        {/* Gemini Effect */}
+        <div className="flex-grow">
+          <GoogleGeminiEffect
+            pathLengths={pathLengths}
+            title="AI Content Crafter"
+            description="Transform your ideas into brilliant content with AI"
+            className="pt-20"
+          />
+        </div>
+
+        {/* Get Started Button - Always at the bottom */}
+        <div className="w-full flex justify-center pb-64 md:pb-12 mt-auto">
           <Link href="/dashboard">
-            <div className="m-10 md:m-40 flex justify-center text-center">
-              <HoverBorderGradient
-                containerClassName="rounded-full shadow-lg transition-transform transform hover:scale-105"
-                as="button"
-                className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-10 md:space-x-4 px-3 md:px-6 py-2 md:py-3"
-              >
-                <span className="text-xs md:text-2xl font-semibold">
-                  Get Started
-                </span>
-                <ArrowRight size={24} />
-              </HoverBorderGradient>
-            </div>
+            <HoverBorderGradient
+              containerClassName="rounded-full shadow-lg transition-transform transform hover:scale-105"
+              as="button"
+              className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 sm:space-x-4 px-3 md:px-6 py-2 md:py-3"
+            >
+              <span className="text-xs md:text-lg lg:text-2xl font-semibold">
+                Get Started
+              </span>
+              <ArrowRight size={20} />
+            </HoverBorderGradient>
           </Link>
         </div>
       </section>
@@ -70,10 +73,10 @@ export default function Home() {
       <section id="features" className="py-20 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Powerful Features for Content Creation
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
               Everything you need to streamline your content workflow and create
               better content, faster.
             </p>
@@ -122,10 +125,10 @@ export default function Home() {
                   {feature.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold mb-1">
+                  <h3 className="text-lg md:text-xl font-semibold mb-1">
                     {feature.title}
                   </h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <p className="text-sm md:text-base text-muted-foreground">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -134,16 +137,16 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 bg-background">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">How It Works</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+            <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
               Three simple steps to transform your content creation process
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-6 lg:gap-8">
             {[
               {
                 step: "1",
@@ -164,11 +167,11 @@ export default function Home() {
                 img:"/generate-refine.webp"
               },
             ].map((item, i) => (
-              <CardContainer className="inter-var" key={i}>
-                <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+              <CardContainer className="inter-var w-full" key={i}>
+                <CardBody className="bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full sm:w-full md:w-full lg:w-full h-auto rounded-xl p-4 md:p-6 border">
                   <CardItem
                     translateZ="50"
-                    className="text-xl font-bold text-neutral-600 dark:text-white"
+                    className="text-lg md:text-xl font-bold text-neutral-600 dark:text-white"
                   >
                     <span className="text-purple-500">Step {item.step}: </span>{item.title}
                   </CardItem>
@@ -184,7 +187,7 @@ export default function Home() {
                       src={item.img}
                       height="1000"
                       width="1000"
-                      className="h-60 w-full object-contain rounded-xl group-hover/card:shadow-xl"
+                      className="h-40 md:h-60 w-full object-contain rounded-xl group-hover/card:shadow-xl"
                       alt="thumbnail"
                     />
                   </CardItem>
@@ -196,13 +199,13 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 relative overflow-hidden bg-black/5 dark:bg-white/5">
+      <section className="py-16 md:py-24 relative overflow-hidden bg-black/5 dark:bg-white/5">
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Transform Your Content Creation?
             </h2>
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-base md:text-lg text-muted-foreground mb-8">
               Join thousands of creators, marketers, and businesses using AI
               Content Crafter today.
             </p>
