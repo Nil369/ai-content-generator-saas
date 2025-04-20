@@ -9,9 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
-import { APP_ROUTES } from '@/constants/navigation';
+import { APP_ROUTES } from '@/constants/navItems';
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { dark } from '@clerk/themes'
 
 // Theme options with their color values
 const THEME_COLORS = {
@@ -81,7 +82,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const { theme, setTheme } = useTheme();
-  const [themeColor, setThemeColor] = useState(getStoredThemeColor()); // Set default theme color to purple
+  const [themeColor, setThemeColor] = useState(getStoredThemeColor());
   const [mounted, setMounted] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [pageTitle, setPageTitle] = useState("Dashboard");
@@ -223,7 +224,12 @@ export default function DashboardLayout({
               />
             </div>
             <ThemeToggle />
-            <UserButton afterSignOutUrl="/" />
+            <UserButton 
+              afterSignOutUrl="/" 
+              appearance={{
+                baseTheme: theme === 'dark' ? dark : undefined,
+              }}
+            />
           </div>
         </header>
 

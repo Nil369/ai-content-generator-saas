@@ -3,57 +3,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, CreditCard, Zap } from "lucide-react";
+import { plans } from '@/constants/pricing';
 
 export default function BillingPage() {
-  const plans = [
-    {
-      name: "Free",
-      price: "$0",
-      description: "Basic AI content generation",
-      features: [
-        "5 AI content generations per month",
-        "3 AI image generations per month",
-        "Basic text formats",
-        "Standard response time"
-      ],
-      current: true,
-      color: "bg-muted"
-    },
-    {
-      name: "Gold",
-      price: "$19",
-      period: "/month",
-      description: "More AI credits for individuals",
-      features: [
-        "50 AI content generations per month",
-        "25 AI image generations per month",
-        "All text formats",
-        "Faster response time",
-        "Save history for 3 months",
-        "Priority support"
-      ],
-      popular: true,
-      color: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800"
-    },
-    {
-      name: "Platinum",
-      price: "$49",
-      period: "/month",
-      description: "More AI credits for businesses",
-      features: [
-        "Unlimited AI content generations",
-        "100 AI image generations per month",
-        "All text and image formats",
-        "Fastest response time",
-        "Save history forever",
-        "Priority support",
-        "Custom templates",
-        "Team collaboration"
-      ],
-      color: "bg-slate-50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800"
-    }
-  ];
-
   return (
     <div>
       <div className="mb-8">

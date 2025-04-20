@@ -5,6 +5,7 @@ import "../styles/theme-colors.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ToastProvider } from "@/components/toast-provider";
+import { shadesOfPurple } from "@clerk/themes";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -21,29 +22,49 @@ export const metadata: Metadata = {
   description: "Fueling Brands with Words That Work.",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const theme = useTheme()
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${redditSans.variable} ${reditMono.variable} antialiased theme-purple`}
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${redditSans.variable} ${reditMono.variable} antialiased theme-purple`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+        // disableTransitionOnChange
+        // storageKey="ai-content-crafter-theme"
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            // disableTransitionOnChange
-            // storageKey="ai-content-crafter-theme"
+          <ClerkProvider
+            appearance={
+              {
+                baseTheme: undefined,
+
+                signIn: {
+                  baseTheme: [shadesOfPurple],
+                },
+
+                signUp: {
+                  baseTheme: [shadesOfPurple],
+                },
+
+                userProfile: {
+                  baseTheme: undefined,
+                },
+              }}
           >
             {children}
             <ToastProvider />
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+          </ClerkProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

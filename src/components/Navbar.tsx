@@ -14,27 +14,10 @@ import { useState } from "react";
 import { ThemeToggle } from "./layout/ThemeToggle";
 import Link from "next/link";
 import { useAuth, UserButton } from "@clerk/nextjs";
+import {navItems} from "@/constants/navItems"
 
 function HomeNavbar() {
-  const navItems = [
-    {
-      name: "Features",
-      link: "/#features",
-    },
-    {
-      name: "About",
-      link: "/about",
-    },
-    {
-      name: "Pricing",
-      link: "/#pricing",
-    },
-    {
-      name: "Contact",
-      link: "/#contact",
-    },
-  ];
-
+  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isSignedIn, isLoaded } = useAuth();
 
@@ -49,7 +32,10 @@ function HomeNavbar() {
             {isLoaded && isSignedIn ? (
               // Logged in state
               <>
-                <NavbarButton variant="secondary" href="/dashboard">Dashboard</NavbarButton>
+                <Link href="/dashboard">
+                  <NavbarButton variant="primary">Dashboard</NavbarButton>
+                </Link>
+
                 <div className="ml-2">
                   <UserButton afterSignOutUrl="/" />
                 </div>
@@ -57,8 +43,12 @@ function HomeNavbar() {
             ) : (
               // Logged out state
               <>
-                <NavbarButton variant="secondary" href="/sign-in">Login</NavbarButton>
-                <NavbarButton variant="primary" href="/sign-up">SignUp</NavbarButton>
+                <NavbarButton variant="secondary" href="/sign-in">
+                  Login
+                </NavbarButton>
+                <NavbarButton variant="primary" href="/sign-up">
+                  SignUp
+                </NavbarButton>
               </>
             )}
             <NavbarButton variant="secondary" as="div">

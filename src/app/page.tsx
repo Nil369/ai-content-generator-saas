@@ -48,7 +48,7 @@ export default function Home() {
             pathLengths={pathLengths}
             title="AI Content Crafter"
             description="Transform your ideas into brilliant content with AI"
-            className="pt-20"
+            className="pt-5"
           />
         </div>
 
@@ -157,7 +157,7 @@ export default function Home() {
               {
                 step: "2",
                 title: "Describe Your Needs",
-                description:"Provide basic details or let our AI guide you through the process.",
+                description:"Provide basic details or let AI guide you through the process.",
                 img:"/needs.png"
               },
               {

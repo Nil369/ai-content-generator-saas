@@ -26,7 +26,9 @@ import {
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { UserProfile, useUser } from '@clerk/nextjs';
+import { dark, shadesOfPurple } from '@clerk/themes'
 import { toast } from 'react-hot-toast';
+
 
 // Theme color options
 const themeColorOptions = [
@@ -210,6 +212,7 @@ export default function SettingsPage() {
                   {isLoaded && (
                     <UserProfile 
                       appearance={{
+                        baseTheme: theme === 'dark' ? dark : undefined,
                         elements: {
                           rootBox: "mx-auto w-full ",
                           card: "shadow-none p-0 border-0 dark:bg-zinc-900",
@@ -226,9 +229,9 @@ export default function SettingsPage() {
                           formFieldLabelRow: "text-foreground",
                           formFieldError: "text-red-500"
                         },
-                        variables: {
-                          colorPrimary: '#a855f7'
-                        }
+                        // variables: {
+                        //   colorPrimary: '#a855f7'
+                        // }
                       }}
                     />
                   )}

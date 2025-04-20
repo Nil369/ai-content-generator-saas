@@ -64,7 +64,12 @@ export function SideNav({ onClose, isOpen }: SideNavProps) {
 
       <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-thin">
         {menuItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          // For dashboard home, only match exact path
+          // For other menu items, match if pathname starts with the item's href
+          const isActive = item.href === "/dashboard" 
+            ? pathname === "/dashboard"
+            : pathname.startsWith(`${item.href}/`) || pathname === item.href;
+            
           return (
             <Link
               key={item.href}

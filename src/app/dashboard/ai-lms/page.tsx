@@ -11,7 +11,7 @@ export default function VideoCreator() {
         </div>
       </div>
       
-      <h1 className="text-3xl font-bold text-center">Video Creator</h1>
+      <h1 className="text-3xl font-bold text-center">AI LMS</h1>
       <p className="text-center text-muted-foreground max-w-2xl mx-auto">
         Generate course content with video with AI-powered tools. Transform your ideas into engaging 
         learning experience without enrolling into any other course.

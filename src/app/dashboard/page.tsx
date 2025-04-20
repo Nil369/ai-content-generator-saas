@@ -46,8 +46,9 @@ function Dashboard() {
                     />
 
                     <div className="flex flex-col items-center justify-center text-center h-full z-10">
-                      <div className="w-36 h-14 md:w-60 md:h-20 rounded-full bg-gradient-to-br flex items-center justify-center mb-6 shadow-lg transform transition-transform duration-500 hover:scale-110 relative z-20">
+                      <div className="w-36 h-14 md:w-60 md:h-20 rounded-full bg-gradient-to-br flex items-center justify-center mb-6 relative z-20">
                         <div className={`w-14 h-14 md:w-18 md:h-18 rounded-full bg-gradient-to-br ${tool.color} flex items-center justify-center`}>
+                          {/*@ts-ignore*/}
                           <Icon className="h-7 md:h-8 w-7 md:w-8 text-white" />
                         </div>
                       </div>
