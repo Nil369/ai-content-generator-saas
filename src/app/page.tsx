@@ -128,7 +128,9 @@ export default function Home() {
                   <h3 className="text-lg md:text-xl font-semibold mb-1">
                     {feature.title}
                   </h3>
-                  <p className="text-sm md:text-base text-muted-foreground">{feature.description}</p>
+                  <p className="text-sm md:text-base text-muted-foreground">
+                    {feature.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -140,7 +142,9 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              How It Works
+            </h2>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
               Three simple steps to transform your content creation process
             </p>
@@ -151,20 +155,23 @@ export default function Home() {
               {
                 step: "1",
                 title: "Select Your Content Type",
-                description:"Choose from blog posts, social media, emails, and more.",
-                img:"/content-type.png"
+                description:
+                  "Choose from blog posts, social media, emails, and more.",
+                img: "/content-type.png",
               },
               {
                 step: "2",
                 title: "Describe Your Needs",
-                description:"Provide basic details or let AI guide you through the process.",
-                img:"/needs.png"
+                description:
+                  "Provide basic details or let AI guide you through the process.",
+                img: "/needs.png",
               },
               {
                 step: "3",
                 title: "Generate & Refine",
-                description:"Get instant results and easily customize to match your vision.",
-                img:"/generate-refine.webp"
+                description:
+                  "Get instant results and easily customize to match your vision.",
+                img: "/generate-refine.webp",
               },
             ].map((item, i) => (
               <CardContainer className="inter-var w-full" key={i}>
@@ -173,7 +180,8 @@ export default function Home() {
                     translateZ="50"
                     className="text-lg md:text-xl font-bold text-neutral-600 dark:text-white"
                   >
-                    <span className="text-purple-500">Step {item.step}: </span>{item.title}
+                    <span className="text-purple-500">Step {item.step}: </span>
+                    {item.title}
                   </CardItem>
                   <CardItem
                     as="p"
@@ -219,7 +227,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <Footer/>
+      <Footer />
     </div>
   );
 }

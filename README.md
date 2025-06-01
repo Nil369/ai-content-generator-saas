@@ -40,10 +40,10 @@ The project follows a well-organized structure to ensure maintainability, scalab
 
 ## Prerequisites
 
-To set up and run this project in a development environment, you will need to have **Docker** installed on your system. Docker is essential for utilizing the Dev Container setup, which provides a consistent and isolated development environment.
+To set up and run this project in a development environment locally on your System(PC), you will need to have **Docker** installed on your system. Docker is essential for utilizing the Dev Container setup, which provides a consistent and isolated development environment.
 
 * **Docker Desktop:**
-  * [ ] Download Docker Desktop for your OS form here: [Install from here](https://www.docker.com/)
+  * [ ] Download Docker Desktop & set-up for your OS form here: [Install from here](https://www.docker.com/)
   
     <img src="https://code.visualstudio.com/assets/docs/devcontainers/containers/remote-dev-status-bar.png" alt="Remote window">
 
@@ -53,18 +53,24 @@ To set up and run this project in a development environment, you will need to ha
 
 Before starting the development server, you need to configure the project's environment variables.
 
+0. [ ] **Clone the repo**: Clone this repo in your PC:
+
+    ```shell
+    git clone https://github.com/Nil369/ai-content-generator-saas.git
+    ```
+
 1.  [ ] **Create `.env.local`:**
-    Duplicate the `.env-sample` file and rename it to `.env.local`. This file will contain your local environment-specific variables.
+    Duplicate the `env-sample` file and rename it to `.env.local`. This file will contain your local environment-specific variables.
 
     ```bash
-    cp .env-sample .env.local
+    cp env-sample .env.local
     ```
 
 2.  [ ] **Populate `.env.local`:**
-    Open `.env.local` and fill in the necessary values for your development setup. This typically includes API keys, database connection strings, and other sensitive information. Refer to the comments within `.env-sample` for guidance on each variable.
+    Open `.env.local` and fill in the necessary values for your development setup. This typically includes API keys, database connection strings, and other sensitive information. Refer to the comments within `env-sample` for guidance on each variable and if you add any library or use **other environment variables on your side just add it also in the env-sample**, **`not the API key (Only the variable name for other developers)`**
 
     Example (`.env.local`):
-    ```bash
+    ```shell
     # Example environment variables
     NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
     # MongoDB
@@ -89,13 +95,13 @@ This project is configured to use **VS Code Dev Containers**, which provides a r
     * VS Code should prompt you to "Reopen in Container" (if you have the Dev Containers extension installed). Click this prompt.
     * If you don't see the prompt, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS) and search for "Dev Containers: Reopen in Container".
 
-    The first time you open the project in a Dev Container, it will build the Docker image and set up the environment. This might take a few minutes.
+    The first time you open the project in a Dev Container, it will build the Docker image and set up the environment. This might take a few minutes (and yeah if you need to keep on the docker desktop for the whole time up, if you close it you need to restart again the system to again run the docker engine).
 
 2.  [ ] **Automatic Dependency Installation:**
     The `postCreateCommand` in `.devcontainer.json` is configured to automatically install Bun (if not present) and then run `bun install` to set up all project dependencies. You do not need to run `bun install` manually after the container is created.
 
 3.  [ ] **Start the Development Server:**
-    Once the Dev Container is fully set up and the terminal is ready, you can start the Next.js development server.
+    Once the Dev Container is fully set up and the terminal is ready, you can start the Next.js development server. *If you are facing issue delete the node_modules folder and .next folder and manually run commands* `bun install` and `bun run dev`
 
     ```bash
     bun run dev

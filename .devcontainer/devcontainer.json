@@ -13,8 +13,17 @@
         "editor.guides.bracketPairs": true,
         "window.systemColorTheme": "dark",
         "editor.minimap.enabled": false,
+        "telemetry.telemetryLevel": "off",
         "workbench.statusBar.visible": true,
-        "editor.fontSize": 14
+        "terminal.integrated.fontFamily": "Consolas,monospace",
+        "files.autoSave": "afterDelay",
+        "editor.fontFamily": "Cascadia Code, Source Code Pro, Consolas, 'Courier New', monospace",
+        "editor.fontSize": 14,
+        "editor.indentSize": "tabSize",
+        "editor.guides.bracketPairsHorizontal": true,
+        "editor.fontLigatures": true,
+        "workbench.iconTheme": "material-icon-theme",
+        "workbench.colorTheme": "GitHub Dark Default"
       },
       "extensions": [
         "streetsidesoftware.code-spell-checker",
@@ -33,8 +42,11 @@
         "bradlc.vscode-tailwindcss",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
+        "visualstudioexptteam.vscode",
         "visualstudioexptteam.intellicode-api-usage-examples",
-        "mutantdino.resourcemonit"
+        "mutantdino.resourcemonit",
+        "ms-vscode.live-server",
+        "pkief.material-icon-theme"
       ]
     }
   },
