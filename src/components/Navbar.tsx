@@ -43,12 +43,18 @@ function HomeNavbar() {
             ) : (
               // Logged out state
               <>
-                <NavbarButton variant="secondary" href="/sign-in">
+              <Link href="/sign-in">
+                <NavbarButton variant="secondary" >
                   Login
                 </NavbarButton>
-                <NavbarButton variant="primary" href="/sign-up">
+              </Link>
+                
+                <Link href="/sign-up">
+                <NavbarButton variant="secondary">
                   SignUp
                 </NavbarButton>
+              </Link>
+                
               </>
             )}
             <NavbarButton variant="secondary" as="div">

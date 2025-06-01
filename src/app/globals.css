@@ -235,3 +235,13 @@
   --primary-foreground: hsl(0 0% 100%);
   --ring: hsl(346.8 77.2% 49.8%);
 }
+
+
+/* Hiding Clerk Branding */
+
+.cl-internal-y44tp9{
+  display:none !important
+}
+.cl-internal-16vtwdp{
+  display:none !important
+}

@@ -1,0 +1,42 @@
+{
+  "name": "AI Content Generator SaaS",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm", // Docker Image can also be used
+  "features": {
+    "ghcr.io/devcontainers/features/git-lfs:1": {},
+    "ghcr.io/wxw-matt/devcontainer-features/command_runner:0": {},
+    "ghcr.io/wxw-matt/devcontainer-features/script_runner:0": {}
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.mouseWheelZoom": true,
+        "editor.guides.bracketPairs": true,
+        "window.systemColorTheme": "dark",
+        "editor.minimap.enabled": false,
+        "workbench.statusBar.visible": true,
+        "editor.fontSize": 14
+      },
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers",
+        "steoates.autoimport",
+        "github.github-vscode-theme",
+        "hiteshchoudharycode.chai-theme",
+        "lakshits11.best-themes-redefined",
+        "pkief.material-icon-theme",
+        "dsznajder.es7-react-js-snippets",
+        "rodrigovallades.es7-react-js-snippets",
+        "infeng.vscode-react-typescript",
+        "ms-vscode.vscode-typescript-next",
+        "yoavbls.pretty-ts-errors",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+        "mutantdino.resourcemonit"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install -g bun && bun install"
+}

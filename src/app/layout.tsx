@@ -5,7 +5,7 @@ import "../styles/theme-colors.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ToastProvider } from "@/components/toast-provider";
-import { shadesOfPurple } from "@clerk/themes";
+import { dark, shadesOfPurple } from "@clerk/themes";
 
 const redditSans = Reddit_Sans({
   variable: "--font-reddit-sans",
@@ -48,11 +48,11 @@ export default function RootLayout({
                 baseTheme: undefined,
 
                 signIn: {
-                  baseTheme: [shadesOfPurple],
+                  baseTheme: dark,
                 },
 
                 signUp: {
-                  baseTheme: [shadesOfPurple],
+                  baseTheme: dark,
                 },
 
                 userProfile: {
